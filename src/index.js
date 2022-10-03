@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import router from "./Router";
 import reportWebVitals from "./reportWebVitals";
-import { RouterProvider } from "react-router-dom";
+import router from "./Router";
+import Navbar from "./components/Navbar";
 
 const root = ReactDOM.createRoot(document.getElementById("app"));
 root.render(
