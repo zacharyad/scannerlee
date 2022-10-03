@@ -1,12 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import pagesIndex from "./pages/index.js";
 import componentsIndex from "./components/index.js";
+import CreateBoard from "./pages/CreateBoard.jsx";
+import App from "./App";
 let { Home, Board, Profile, About, Auth } = pagesIndex;
-let { Error } = componentsIndex;
+let { Error, Navbar } = componentsIndex;
 
 const router = createBrowserRouter([
   {
-    element: <Home />,
+    element: <App />,
     path: "/",
     errorElement: <Error />,
   },
@@ -23,6 +25,11 @@ const router = createBrowserRouter([
   {
     element: <Profile />,
     path: "/profile",
+    errorElement: <Error />,
+  },
+  {
+    element: <CreateBoard />,
+    path: "/createboard",
     errorElement: <Error />,
   },
   {
