@@ -4,20 +4,18 @@ import Avatar from "../components/Avatar"
 
 function Profile({session}) {
     let initData = {avatar_url: "", username: ""}
-    let [profileData, setProfileData] = useState(initData);
+    let [username, setUsername] = useState("");
+    let [avatar_url, setAvatarUrl] = useState("");
     let [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
         getProfile()
-
     }, [session])
 
     const getProfile = async () => {
         try{
             setLoading(true);
             const user = supabase.auth.user()
-
-            console.log("User From GetProfile:", user)
 
 
             let {data, error, status} = await supabase
@@ -27,9 +25,9 @@ function Profile({session}) {
             .single()
 
             if(data){
-                console.log("Data", data)
-                setProfileData({...profileData, ...data})
-                console.log(profileData)
+                let {username, avatar_url} = data
+                setAvatarUrl(avatar_url)
+                setUsername(username)
             } else {
                 throw new Error("Something when wrong while getting your profile data.")
             }
@@ -48,11 +46,11 @@ function Profile({session}) {
         try{
             setLoading(true);
             const user = supabase.auth.user()
-            
             const updates = {
                 id: user.id,
                 updated_at: new Date(),
-                ...profileData
+                username,
+                avatar_url
             }
 
             console.log("IN UPDATE PROFILE: ", updates)
@@ -76,14 +74,8 @@ function Profile({session}) {
     }
 
     const onChange = (e) => {
-        if(Object.keys(profileData).includes(e.target.name)){
-            setProfileData({
-                ...profileData,
-                [e.target.name]: e.target.value
-            })
-        }
+            setUsername(e.target.value);
     }
-
     return (
       <div>
           <h1>User Profile: </h1>
@@ -91,14 +83,13 @@ function Profile({session}) {
             isLoading ? 
             <p>Saving...</p> :
             <>
-            <Avatar url={profileData.avatar_url} size={150} onUpload={(url) => {
-                setProfileData({avatar_url: url})
+            <Avatar url={avatar_url} size={150} onUpload={(url) => {
+                 setAvatarUrl(url);
             }} />
             <form onSubmit={updateProfile}>
-                <input value={profileData.username} onChange={onChange} type="text" name="username" id="username" placeholder="UserName1991" />
+                <input value={username} onChange={onChange} type="text" name="username" id="username" placeholder="UserName1991" />
                 <button>Make Changes to Profile.</button>
             </form>
-            <button onClick={() => supabase.auth.signOut()}>Sign Out</button>
             </>
           }
 

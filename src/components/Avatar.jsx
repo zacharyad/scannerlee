@@ -1,3 +1,4 @@
+import "../App.css";
 import { useEffect, useState } from 'react'
 import  supabase from '../supabaseClient'
 import Icon from '../assets/Avatar.png'
@@ -72,7 +73,9 @@ export default function Avatar({ url, size, onUpload }) {
                       accept="image/*"
                       className="hidden"
                       onChange={uploadAvatar}
-                      disabled={uploading}/>
+                      disabled={uploading}
+                      />
+                      
                  </>
                 )}
           </div>
