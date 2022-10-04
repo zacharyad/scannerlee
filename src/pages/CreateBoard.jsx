@@ -1,44 +1,47 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
+import { useNavigate } from 'react-router-dom';
+import {UserContext} from '../context/user'
 import supabase from "../supabaseClient";
 
 function CreateBoard({user_id}) {
-    const initBoardFormData = {msg: "", user_id}
-    const [boardData, setBoardData] = useState(initBoardFormData);
+    const user = useContext(UserContext)
+    const [msg, setMsg] = useState("");
+    const goToBoards = useNavigate()
 
     const createBoard = async (e) => {
+      console.log("Inside the create board func: ", user)
         e.preventDefault()
 
-        const {user_id, msg} = boardData;
         const newBoard = {
-            user_id,
+            user_id: user.id,
             msg,
             created_at: new Date()
         }
 
-        // const { data, error } = await supabase
-        // .from('boards')
-        // .insert([
-        //     newBoard
-        // ])
+        const { data, error } = await supabase
+        .from('boards')
+        .insert(newBoard)
 
-        console.log("boardData on Submit: ", boardData)
+        console.log("Data back = ", data[0].id)
+
+        //console.log("boardData on Submit: ", newBoard)
+        goToBoards(`/board/${data[0].id}`);
     }
 
     const onChange = (e) => {
 
       
-      setBoardData({
-        ...boardData,
-        [e.target.name]: e.target.value
-      })
+      setMsg(e.target.value)
 
-      console.log(boardData)
+      console.log(msg)
     }
+
+    console.log("User from create3 borads: ", user)
 
     return (
       <form onSubmit={createBoard}>
         <label htmlFor="mdg">Message:</label>
-        <input onChange={onChange} value={boardData.msg} type="text" name="msg" id="msg" />
+        <input onChange={onChange} value={msg} type="text" name="msg" id="msg" />
         <button>Create QR code</button>
       </form>
     );

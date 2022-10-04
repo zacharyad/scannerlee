@@ -5,10 +5,7 @@ import Auth from './Auth'
 import Navbar from '../components/Navbar';
 
 function Home() {
-
   const [session, setSession] = useState(null)
-
-
 
   useEffect(() => {
     setSession(supabase.auth.session())

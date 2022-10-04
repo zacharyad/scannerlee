@@ -10,7 +10,6 @@ function Profile({session}) {
 
     useEffect(() => {
         getProfile()
-
     }, [session])
 
     const getProfile = async () => {
@@ -91,7 +90,6 @@ function Profile({session}) {
                 <input value={username} onChange={onChange} type="text" name="username" id="username" placeholder="UserName1991" />
                 <button>Make Changes to Profile.</button>
             </form>
-            <button onClick={() => supabase.auth.signOut()}>Sign Out</button>
             </>
           }
 
