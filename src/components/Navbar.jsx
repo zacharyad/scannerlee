@@ -15,6 +15,8 @@ function Navbar() {
       <nav>
         <Link to="/">Home | </Link>
         <Link to="/about">About</Link>
+        <Link to="/sign-up">Sign Up</Link>
+        <Link to="/login">Login</Link>
       </nav>
     )
   } else {
